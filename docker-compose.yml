@@ -1,14 +1,12 @@
-version: "3.8"
-
 services:
   api:
-    image: python:3.11-slim
+    build:
+      context: .
+      dockerfile: Dockerfile
     working_dir: /code
     volumes:
       - ./:/code
-    command: >
-      sh -c "pip install -r app/requirements.txt &&
-             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
     ports:
       - "8000:8000"
     depends_on:
@@ -17,19 +15,22 @@ services:
   mongo1:
     image: mongo:6
     container_name: mongo1
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    command:
+      ["mongod", "--replSet", "rs0", "--bind_ip_all", "--wiredTigerCacheSizeGB", "0.25"]
     ports: ["27017:27017"]
 
   mongo2:
     image: mongo:6
     container_name: mongo2
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    command:
+      ["mongod", "--replSet", "rs0", "--bind_ip_all", "--wiredTigerCacheSizeGB", "0.25"]
     ports: ["27018:27017"]
 
   mongo3:
     image: mongo:6
     container_name: mongo3
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    command:
+      ["mongod", "--replSet", "rs0", "--bind_ip_all", "--wiredTigerCacheSizeGB", "0.25"]
     ports: ["27019:27017"]
 
   mongo-setup:
@@ -40,4 +41,9 @@ services:
       - mongo3
     volumes:
       - ./mongo-init.js:/init-replica.js:ro
-    entrypoint: ["bash", "-c", "sleep 5 && mongo --host mongo1:27017 /init-replica.js"]
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "until mongosh --host mongo1:27017 --eval \"db.adminCommand('ping')\" >/dev/null 2>&1; do sleep 1; done; mongosh --host mongo1:27017 /init-replica.js",
+      ]
