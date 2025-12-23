@@ -33,6 +33,7 @@ docker compose exec mongo1 mongosh --eval 'rs.status().members.map(m=>({name:m.n
 
 ### Swagger
 - Swagger UI: `http://localhost:8000/docs`
+- Web UI: `http://localhost:8000/`
 - В `POST /events` в поле **Request body** нужно вставлять JSON (не `curl`).
 
 ### Endpoints
