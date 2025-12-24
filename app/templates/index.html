@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Distributed Event Logging System</title>
+    <title>Консоль распределенных событий</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Space+Grotesk:wght@400;500;600&display=swap");
 
@@ -91,6 +91,21 @@
         border-radius: 50%;
         background: currentColor;
         box-shadow: 0 0 0 6px rgba(47, 141, 152, 0.16);
+      }
+
+      .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .lang-toggle {
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: rgba(27, 26, 24, 0.08);
+        color: var(--ink);
+        font-weight: 600;
+        font-size: 13px;
       }
 
       .grid {
@@ -333,27 +348,30 @@
     <div class="shell">
       <header class="hero">
         <div>
-          <p class="eyebrow">Replica Set Logger</p>
-          <h1>Distributed Event Console</h1>
-          <p class="sub">Quick console to write events, filter records, and review level statistics.</p>
+          <p class="eyebrow" data-i18n="eyebrow">Логгер репликасета</p>
+          <h1 data-i18n="title">Консоль распределенных событий</h1>
+          <p class="sub" data-i18n="sub">Быстрый интерфейс для записи событий, фильтрации и проверки статистики по уровням.</p>
         </div>
-        <div class="status-pill" id="health-pill">
-          <span class="status-dot" id="health-dot"></span>
-          <span id="health-text">Checking API...</span>
+        <div class="hero-actions">
+          <div class="status-pill" id="health-pill">
+            <span class="status-dot" id="health-dot"></span>
+            <span id="health-text" data-i18n="healthChecking">Проверяем API...</span>
+          </div>
+          <button class="lang-toggle" type="button" id="lang-toggle" aria-label="Switch language">EN</button>
         </div>
       </header>
 
       <main class="grid">
         <div class="left-stack">
           <section class="panel">
-            <h2>New Event</h2>
+            <h2 data-i18n="newEvent">Новое событие</h2>
             <form id="event-form">
               <div>
-                <label for="service">Service</label>
-                <input id="service" name="service" placeholder="auth" required />
+                <label for="service" data-i18n="service">Сервис</label>
+                <input id="service" name="service" placeholder="auth" data-i18n-placeholder="servicePlaceholder" required />
               </div>
               <div>
-                <label for="level">Level</label>
+                <label for="level" data-i18n="level">Уровень</label>
                 <select id="level" name="level" required>
                   <option value="info">info</option>
                   <option value="warn">warn</option>
@@ -362,52 +380,52 @@
                 </select>
               </div>
               <div>
-                <label for="message">Message</label>
-                <input id="message" name="message" placeholder="user login" required />
+                <label for="message" data-i18n="message">Сообщение</label>
+                <input id="message" name="message" placeholder="вход пользователя" data-i18n-placeholder="messagePlaceholder" required />
               </div>
               <div>
-                <label for="host">Host</label>
-                <input id="host" name="host" placeholder="node1" required />
+                <label for="host" data-i18n="host">Хост</label>
+                <input id="host" name="host" placeholder="node1" data-i18n-placeholder="hostPlaceholder" required />
               </div>
               <div>
-                <label for="metadata">Metadata (JSON)</label>
-                <textarea id="metadata" name="metadata" placeholder='{"user":"bob","ip":"10.0.0.1"}'></textarea>
+                <label for="metadata" data-i18n="metadata">Метаданные (JSON)</label>
+                <textarea id="metadata" name="metadata" placeholder='{"user":"bob","ip":"10.0.0.1"}' data-i18n-placeholder="metadataPlaceholder"></textarea>
               </div>
               <div class="form-actions">
-                <button class="primary" type="submit">Send Event</button>
-                <button class="ghost" type="button" id="seed">Fill Sample</button>
+                <button class="primary" type="submit" data-i18n="sendEvent">Отправить событие</button>
+                <button class="ghost" type="button" id="seed" data-i18n="fillSample">Заполнить пример</button>
               </div>
             </form>
             <div class="status" id="form-status"></div>
-            <p class="hint">Events are sent to <code>/events</code>. Timestamp is added automatically.</p>
+            <p class="hint" data-i18n="hint">Событие отправляется на <code>/events</code>. Время проставляется автоматически.</p>
           </section>
 
           <section class="panel">
-            <h2>Level Stats</h2>
+            <h2 data-i18n="levelStats">Статистика по уровням</h2>
             <div class="stats-grid" id="stats-grid"></div>
           </section>
         </div>
 
         <section class="panel list-panel">
           <div class="list-header">
-            <h2>Events</h2>
+            <h2 data-i18n="events">События</h2>
             <div class="filters">
-              <input id="filter-service" placeholder="Filter: service" />
+              <input id="filter-service" placeholder="Фильтр: сервис" data-i18n-placeholder="filterService" />
               <select id="filter-level">
-                <option value="">All levels</option>
+                <option value="" data-i18n="allLevels">Все уровни</option>
                 <option value="info">info</option>
                 <option value="warn">warn</option>
                 <option value="error">error</option>
                 <option value="debug">debug</option>
               </select>
             </div>
-            <button class="ghost" type="button" id="refresh">Refresh</button>
+            <button class="ghost" type="button" id="refresh" data-i18n="refresh">Обновить</button>
           </div>
           <div class="list" id="events-list"></div>
         </section>
       </main>
 
-      <div class="foot">FastAPI + MongoDB Replica Set. UI updates without page reloads.</div>
+      <div class="foot" data-i18n="foot">FastAPI + MongoDB Replica Set. UI обновляется без перезагрузки страницы.</div>
     </div>
 
     <script>
@@ -421,6 +439,104 @@
       const seedBtn = document.getElementById("seed");
       const healthText = document.getElementById("health-text");
       const healthDot = document.getElementById("health-dot");
+      const langToggle = document.getElementById("lang-toggle");
+
+      const translations = {
+        ru: {
+          langToggle: "EN",
+          title: "Консоль распределенных событий",
+          eyebrow: "Логгер репликасета",
+          sub: "Быстрый интерфейс для записи событий, фильтрации и проверки статистики по уровням.",
+          healthChecking: "Проверяем API...",
+          healthOnline: "API доступен",
+          healthResponding: "API отвечает",
+          healthOffline: "API недоступен",
+          newEvent: "Новое событие",
+          service: "Сервис",
+          level: "Уровень",
+          message: "Сообщение",
+          host: "Хост",
+          metadata: "Метаданные (JSON)",
+          sendEvent: "Отправить событие",
+          fillSample: "Заполнить пример",
+          hint: "Событие отправляется на /events. Время проставляется автоматически.",
+          levelStats: "Статистика по уровням",
+          events: "События",
+          filterService: "Фильтр: сервис",
+          allLevels: "Все уровни",
+          refresh: "Обновить",
+          foot: "FastAPI + MongoDB Replica Set. UI обновляется без перезагрузки страницы.",
+          noEventsYet: "Пока нет событий. Добавьте первое!",
+          noEventsFound: "События не найдены.",
+          metadataError: "Metadata должна быть корректным JSON.",
+          eventSaved: "Событие сохранено.",
+          eventFailed: "Не удалось отправить событие.",
+          unknown: "неизвестно",
+          defaultService: "сервис",
+          defaultHost: "хост",
+          servicePlaceholder: "auth",
+          messagePlaceholder: "вход пользователя",
+          hostPlaceholder: "node1",
+          metadataPlaceholder: '{"user":"bob","ip":"10.0.0.1"}',
+        },
+        en: {
+          langToggle: "RU",
+          title: "Distributed Event Console",
+          eyebrow: "Replica Set Logger",
+          sub: "Quick console to write events, filter records, and review level statistics.",
+          healthChecking: "Checking API...",
+          healthOnline: "API online",
+          healthResponding: "API responding",
+          healthOffline: "API offline",
+          newEvent: "New Event",
+          service: "Service",
+          level: "Level",
+          message: "Message",
+          host: "Host",
+          metadata: "Metadata (JSON)",
+          sendEvent: "Send Event",
+          fillSample: "Fill Sample",
+          hint: "Events are sent to /events. Timestamp is added automatically.",
+          levelStats: "Level Stats",
+          events: "Events",
+          filterService: "Filter: service",
+          allLevels: "All levels",
+          refresh: "Refresh",
+          foot: "FastAPI + MongoDB Replica Set. UI updates without page reloads.",
+          noEventsYet: "No events yet. Add the first one!",
+          noEventsFound: "No events found.",
+          metadataError: "Metadata must be valid JSON.",
+          eventSaved: "Event saved.",
+          eventFailed: "Failed to send event.",
+          unknown: "unknown",
+          defaultService: "service",
+          defaultHost: "host",
+          servicePlaceholder: "auth",
+          messagePlaceholder: "user login",
+          hostPlaceholder: "node1",
+          metadataPlaceholder: '{"user":"bob","ip":"10.0.0.1"}',
+        },
+      };
+
+      let currentLang = localStorage.getItem("lang") || "ru";
+
+      function t(key) {
+        return translations[currentLang][key] || key;
+      }
+
+      function applyTranslations() {
+        document.documentElement.lang = currentLang;
+        document.title = t("title");
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          const key = node.getAttribute("data-i18n");
+          node.textContent = t(key);
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+          const key = node.getAttribute("data-i18n-placeholder");
+          node.setAttribute("placeholder", t(key));
+        });
+        langToggle.textContent = t("langToggle");
+      }
 
       const levelColors = {
         info: "badge-info",
@@ -451,10 +567,10 @@
       async function loadHealth() {
         try {
           const data = await api("/health");
-          healthText.textContent = data.status === "up" ? "API online" : "API responding";
+          healthText.textContent = data.status === "up" ? t("healthOnline") : t("healthResponding");
           healthDot.style.color = "var(--ok)";
         } catch (error) {
-          healthText.textContent = "API offline";
+          healthText.textContent = t("healthOffline");
           healthDot.style.color = "var(--danger)";
         }
       }
@@ -464,17 +580,17 @@
         if (!stats.length) {
           const empty = document.createElement("div");
           empty.className = "empty";
-          empty.textContent = "No events yet. Add the first one!";
+          empty.textContent = t("noEventsYet");
           statsGrid.appendChild(empty);
           return;
         }
         stats
           .sort((a, b) => b.count - a.count)
           .forEach((item) => {
-            const row = document.createElement("div");
-            row.className = "stat";
-            const name = document.createElement("span");
-            name.textContent = item._id || "unknown";
+          const row = document.createElement("div");
+          row.className = "stat";
+          const name = document.createElement("span");
+          name.textContent = item._id || t("unknown");
             const count = document.createElement("strong");
             count.textContent = item.count;
             row.append(name, count);
@@ -487,7 +603,7 @@
         if (!events.length) {
           const empty = document.createElement("div");
           empty.className = "empty";
-          empty.textContent = "No events found.";
+          empty.textContent = t("noEventsFound");
           list.appendChild(empty);
           return;
         }
@@ -504,7 +620,7 @@
           badge.textContent = level;
 
           const meta = document.createElement("span");
-          meta.textContent = `${event.service || "service"} - ${event.host || "host"}`;
+          meta.textContent = `${event.service || t("defaultService")} - ${event.host || t("defaultHost")}`;
 
           const time = document.createElement("span");
           const date = event.timestamp ? new Date(event.timestamp) : null;
@@ -566,7 +682,7 @@
           try {
             payload.metadata = JSON.parse(form.metadata.value);
           } catch (error) {
-            setStatus("Metadata must be valid JSON.", true);
+            setStatus(t("metadataError"), true);
             return;
           }
         }
@@ -575,20 +691,29 @@
             method: "POST",
             body: JSON.stringify(payload),
           });
-          setStatus("Event saved.");
+          setStatus(t("eventSaved"));
           form.reset();
           await Promise.all([loadStats(), loadEvents()]);
         } catch (error) {
-          setStatus("Failed to send event.", true);
+          setStatus(t("eventFailed"), true);
         }
       });
 
       seedBtn.addEventListener("click", () => {
-        form.service.value = "auth";
+        form.service.value = t("servicePlaceholder");
         form.level.value = "info";
-        form.message.value = "user login";
-        form.host.value = "node1";
-        form.metadata.value = '{"user":"bob","ip":"10.0.0.1"}';
+        form.message.value = t("messagePlaceholder");
+        form.host.value = t("hostPlaceholder");
+        form.metadata.value = t("metadataPlaceholder");
+      });
+
+      langToggle.addEventListener("click", () => {
+        currentLang = currentLang === "ru" ? "en" : "ru";
+        localStorage.setItem("lang", currentLang);
+        applyTranslations();
+        loadHealth();
+        loadStats();
+        loadEvents();
       });
 
       filterService.addEventListener("input", () => loadEvents());
@@ -598,6 +723,7 @@
         loadEvents();
       });
 
+      applyTranslations();
       loadHealth();
       loadStats();
       loadEvents();
